@@ -18,12 +18,14 @@ from PySide2.QtWidgets import (
 # Plotting libraries
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import FigureCanvas, NavigationToolbar2QT as NavigationToolbar
-from PySide2.QtGui import QPalette, QColor
+from PySide2.QtGui import QPalette, QColor,QFont
 
 # define default constant
 DEFAULT_FUNCTION = "x"
 X_RANGE = (-100, 100)
 DEFAULT_RANGE = (-10, 10)
+DEFAULT_font = QFont("Times", 12)
+BOLD_font = QFont("Helvetica", 12, QFont.Bold)
 
 # list of allowed words to be entered by the user
 allowed_elements = ['+', '-', '*', 'x', 'sin', 'cos', 'exp', '/', '^', ]
@@ -78,17 +80,25 @@ class MainWindow(QMainWindow):
         # main window
         super(MainWindow, self).__init__(*args, **kwargs)
         self.setWindowTitle("Function Plotter")
+        self.setStyleSheet("color: 	darkblue;"
+                        "background-color:turquoise;"
+                        "selection-color: black;"
+                        "selection-background-color: red;")
         self.sc = MplCanvas(self, width=10, height=8, dpi=100)
 
         # build DoubleSpinBox for min x & max x values
         self.mn = QDoubleSpinBox()
+        self.mn.setStyleSheet("background-color:white;")
         self.mx = QDoubleSpinBox()
+        self.mx.setStyleSheet("background-color:white;")
         self.mn.setPrefix("min x: ")
         self.mx.setPrefix("max x: ")
         self.mn.setRange(*X_RANGE)
         self.mx.setRange(*X_RANGE)
         self.mn.setValue(DEFAULT_RANGE[0])
         self.mx.setValue(DEFAULT_RANGE[1])
+        self.mn.setFont(DEFAULT_font)
+        self.mx.setFont(DEFAULT_font)
         # connect the min & max values of x with change method
         self.mn.valueChanged.connect(lambda _: self.change_axes())
         self.mx.valueChanged.connect(lambda _: self.change_axes())
@@ -98,16 +108,21 @@ class MainWindow(QMainWindow):
         xrange_layout.addWidget(self.mx)
 
         # build a text box for function
-        self.function = QLineEdit()
-        self.function.setText(DEFAULT_FUNCTION)
         self.func_label = QLabel(text="Function: ")
-        self.submit = QPushButton(text="plot")
+        self.func_label.setFont(BOLD_font)
+        self.function = QLineEdit()
+        self.function.setStyleSheet("background-color:white;")
+        self.function.setText(DEFAULT_FUNCTION)
+        self.function.setFont(DEFAULT_font)
+        self.submit = QPushButton(text="Plot")
+        self.submit.setStyleSheet("background-color:white;")
+        self.submit.setFont(BOLD_font)
         self.submit.clicked.connect(lambda _: self.plot_signal())
         # function layout
         func_layout = QHBoxLayout()
-        func_layout.addWidget(self.function)
-        func_layout.addWidget(Color('blue'))
         func_layout.addWidget(self.func_label)
+        func_layout.addWidget(Color('blue'))
+        func_layout.addWidget(self.function)
         func_layout.addWidget(self.submit)
 
         # Create toolbar, passing canvas as first parameter, parent (self, the MainWindow) as second.
@@ -122,6 +137,7 @@ class MainWindow(QMainWindow):
 
         # define error dialog
         self.error_dialog = QMessageBox()
+        self.error_dialog.setFont(DEFAULT_font)
 
         # Create a placeholder widget to hold our toolbar and canvas.
 
