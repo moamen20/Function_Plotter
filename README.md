@@ -1,5 +1,5 @@
 # Function Plotter
-###  Python GUI program that plots an arbitrary user-entered function
+###  Python GUI program that plots an arbitrary user-entered function using PySide2 & matplotlib
 
 <img src="https://github.com/moamen20/Function_Plotter/blob/main/program_snapshots/function_Plotter.png" width="800" height="550" />
 
