@@ -18,7 +18,7 @@ from PySide2.QtWidgets import (
 # Plotting libraries
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import FigureCanvas, NavigationToolbar2QT as NavigationToolbar
-from PySide2.QtGui import QPalette, QColor,QFont
+from PySide2.QtGui import QColor,QFont
 
 # define default constant
 DEFAULT_FUNCTION = "x"
@@ -55,16 +55,6 @@ def eval_function(func):
 
 
 #************************************ GUI *******************************
-
-# define a class for color
-class Color(QWidget):
-    def __init__(self, color):
-        super(Color, self).__init__()
-        self.setAutoFillBackground(True)
-        palette = self.palette()
-        palette.setColor(QPalette.Window, QColor(color))
-        self.setPalette(palette)
-
 
 class MplCanvas(FigureCanvas):
 
@@ -121,7 +111,6 @@ class MainWindow(QMainWindow):
         # function layout
         func_layout = QHBoxLayout()
         func_layout.addWidget(self.func_label)
-        func_layout.addWidget(Color('blue'))
         func_layout.addWidget(self.function)
         func_layout.addWidget(self.submit)
 
